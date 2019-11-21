@@ -4,6 +4,6 @@ export interface InvoiceDb {
   _id: string;
   customer: CustomerMin;
   total: number;
-  createdAt: number;
+  createdAt: Date;
   status: InvoiceStatus;
 }

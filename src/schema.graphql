@@ -1,13 +1,12 @@
 type CustomerMin {
   name: String!
-  id: ID!
 }
 
 type Invoice {
   id: ID!
   customer: CustomerMin!
   total: Int!
-  createdAt: Int!
+  createdAt: String!
   status: InvoiceStatus!
 }
 

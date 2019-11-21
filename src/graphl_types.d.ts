@@ -14,7 +14,6 @@ export type Scalars = {
 export type CustomerMin = {
    __typename?: 'CustomerMin',
   name: Scalars['String'],
-  id: Scalars['ID'],
 };
 
 export type Invoice = {
@@ -22,7 +21,7 @@ export type Invoice = {
   id: Scalars['ID'],
   customer: CustomerMin,
   total: Scalars['Int'],
-  createdAt: Scalars['Int'],
+  createdAt: Scalars['String'],
   status: InvoiceStatus,
 };
 
@@ -134,14 +133,13 @@ export type ResolversParentTypes = {
 
 export type CustomerMinResolvers<ContextType = GlobalContext, ParentType extends ResolversParentTypes['CustomerMin'] = ResolversParentTypes['CustomerMin']> = {
   name?: Resolver<ResolversTypes['String'], ParentType, ContextType>,
-  id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>,
 };
 
 export type InvoiceResolvers<ContextType = GlobalContext, ParentType extends ResolversParentTypes['Invoice'] = ResolversParentTypes['Invoice']> = {
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>,
   customer?: Resolver<ResolversTypes['CustomerMin'], ParentType, ContextType>,
   total?: Resolver<ResolversTypes['Int'], ParentType, ContextType>,
-  createdAt?: Resolver<ResolversTypes['Int'], ParentType, ContextType>,
+  createdAt?: Resolver<ResolversTypes['String'], ParentType, ContextType>,
   status?: Resolver<ResolversTypes['InvoiceStatus'], ParentType, ContextType>,
 };
 

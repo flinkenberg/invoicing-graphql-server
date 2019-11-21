@@ -33,6 +33,11 @@ async function init(cb) {
       _id
     }) => {
       return _id.toString();
+    },
+    createdAt: ({
+      createdAt
+    }) => {
+      return createdAt.valueOf().toString();
     }
   }
 };async function batchInvoices(ids) {
@@ -50,12 +55,16 @@ async function init(cb) {
 
 var loaders = {
   invoicesLoader: () => new DataLoader(batchInvoices)
-};var typeDefs = "type CustomerMin {\n  id: ID!\n  name: String!\n}\n\ntype Invoice {\n  id: ID!\n  customer: CustomerMin!\n  total: Int!\n  createdAt: Int!\n  status: InvoiceStatus!\n}\n\nenum InvoiceStatus {\n  DUE\n  PAST_DUE\n  PAID\n  UNPAID\n}\n\ntype Query {\n  getInvoices: [Invoice]!\n  _: Boolean\n}\n";
+};var typeDefs = "type CustomerMin {\n  name: String!\n}\n\ntype Invoice {\n  id: ID!\n  customer: CustomerMin!\n  total: Int!\n  createdAt: String!\n  status: InvoiceStatus!\n}\n\nenum InvoiceStatus {\n  DUE\n  PAST_DUE\n  PAID\n  UNPAID\n}\n\ntype Query {\n  getInvoices: [Invoice]!\n  _: Boolean\n}\n";
 const mergedSchema = apolloServer.makeExecutableSchema({
   typeDefs,
   resolvers: [resolvers]
 });
 const server = new apolloServer.ApolloServer({
+  introspection: true,
+  subscriptions: {
+    path: "/"
+  },
   schema: apolloServer.mergeSchemas({
     schemas: [mergedSchema]
   }),

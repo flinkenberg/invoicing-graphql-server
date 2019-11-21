@@ -9,6 +9,10 @@ import { InvoiceDb } from "./db_types";
 const mergedSchema = makeExecutableSchema({ typeDefs, resolvers: [invoicesResolvers] })
 
 const server = new ApolloServer({
+  introspection: true,
+  subscriptions: {
+    path: "/",
+  },
   schema: mergeSchemas({
     schemas: [mergedSchema]
   }),

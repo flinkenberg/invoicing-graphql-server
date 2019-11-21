@@ -10,6 +10,9 @@ const resolvers: Resolvers<GlobalContext> = {
     id: ({ _id }) => {
       return _id.toString()
     },
+    createdAt: ({ createdAt }) => {
+      return createdAt.valueOf().toString()
+    }
   }
 
 }
