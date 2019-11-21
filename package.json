@@ -1,0 +1,56 @@
+{
+  "name": "invoicing-graphql-server",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "concurrently \"npm run build:watch\" \"npm run generate:watch\" \"nodemon ./dist/index.js\"",
+    "generate": "graphql-codegen --config codegen.yml",
+    "generate:watch": "npm run generate -- --watch",
+    "build": "rm -rf ./node_modules/.cache/babel-loader && rollup -c",
+    "build:watch": "rollup -c -w",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Ondrej Stastny",
+  "license": "ISC",
+  "dependencies": {
+    "apollo-server": "^2.8.0",
+    "dataloader": "^1.4.0",
+    "dotenv": "^8.1.0",
+    "graphql": "^14.4.2",
+    "mongodb": "^3.3.0"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.5.5",
+    "@babel/preset-env": "^7.5.5",
+    "@babel/preset-typescript": "^7.3.3",
+    "@graphql-codegen/cli": "^1.6.1",
+    "@graphql-codegen/schema-ast": "^1.6.1",
+    "@graphql-codegen/typescript-mongodb": "^1.6.1",
+    "@graphql-codegen/typescript-resolvers": "^1.6.1",
+    "@types/dotenv": "^6.1.1",
+    "@types/graphql": "^14.2.3",
+    "@types/mongodb": "^3.3.0",
+    "babel-plugin-import-graphql": "^2.7.0",
+    "concurrently": "^4.1.1",
+    "nodemon": "^1.19.1",
+    "rollup": "^1.17.0",
+    "rollup-plugin-babel": "^4.3.3",
+    "rollup-plugin-commonjs": "^10.0.1",
+    "rollup-plugin-graphql": "^0.1.0",
+    "rollup-plugin-node-resolve": "^5.2.0",
+    "rollup-plugin-typescript2": "^0.22.1",
+    "typescript": "^3.5.3"
+  },
+  "lint-staged": {
+    "linters": {
+      "*.{js,ts,tsx}": [
+        "prettier --loglevel error --write",
+        "git add"
+      ]
+    },
+    "ignore": [
+      "dist/*"
+    ]
+  }
+}

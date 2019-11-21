@@ -1,0 +1,13 @@
+schema: "./src/**/*.graphql"
+generates:
+  ./src/schema.graphql:
+    plugins:
+      - schema-ast
+  ./src/graphl_types.d.ts:
+    plugins:
+      - typescript
+      - typescript-resolvers
+    config:
+      contextType: ./custom_types#GlobalContext
+      mappers:
+        Invoice: ./db_types#InvoiceDb

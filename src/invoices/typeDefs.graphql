@@ -1,0 +1,22 @@
+enum InvoiceStatus {
+  DUE
+  PAST_DUE
+  PAID
+  UNPAID
+}
+
+type Invoice {
+  id: ID!
+  customer: CustomerMin!
+  total: Int!
+  createdAt: Int!
+  status: InvoiceStatus!
+}
+
+type CustomerMin {
+  name: String!
+}
+
+extend type Query {
+  getInvoices: [Invoice]!
+}

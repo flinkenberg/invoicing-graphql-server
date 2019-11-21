@@ -1,0 +1,15 @@
+{
+  "presets": [
+    [
+      "@babel/preset-env",
+      {
+        "loose": true,
+        "useBuiltIns": false,
+        "targets": {
+          "node": true
+        }
+      }
+    ]
+  ],
+  "plugins": ["import-graphql"]
+}
