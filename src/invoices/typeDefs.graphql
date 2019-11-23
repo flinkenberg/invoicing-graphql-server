@@ -5,6 +5,18 @@ enum InvoiceStatus {
   UNPAID
 }
 
+enum InvoiceDBKey {
+  id
+  customer
+  total
+  createdAt
+  status
+}
+
+type CustomerMin {
+  name: String!
+}
+
 type Invoice {
   id: ID!
   customer: CustomerMin!
@@ -13,10 +25,18 @@ type Invoice {
   status: InvoiceStatus!
 }
 
-type CustomerMin {
-  name: String!
+type InvoicesPaginated {
+  total: Int!
+  items: [Invoice]!
 }
 
 extend type Query {
-  getInvoices: [Invoice]!
+  getInvoices(
+    limit: Int
+    offset: Int
+    search: String
+    searchKey: InvoiceDBKey
+    sortKey: InvoiceDBKey
+    isDesc: Boolean
+  ): InvoicesPaginated!
 }

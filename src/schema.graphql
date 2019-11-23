@@ -10,6 +10,19 @@ type Invoice {
   status: InvoiceStatus!
 }
 
+enum InvoiceDBKey {
+  id
+  customer
+  total
+  createdAt
+  status
+}
+
+type InvoicesPaginated {
+  total: Int!
+  items: [Invoice]!
+}
+
 enum InvoiceStatus {
   DUE
   PAST_DUE
@@ -18,6 +31,6 @@ enum InvoiceStatus {
 }
 
 type Query {
-  getInvoices: [Invoice]!
+  getInvoices(limit: Int, offset: Int, search: String, searchKey: InvoiceDBKey, sortKey: InvoiceDBKey, isDesc: Boolean): InvoicesPaginated!
   _: Boolean
 }

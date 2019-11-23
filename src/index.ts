@@ -1,10 +1,9 @@
 import { ApolloServer, mergeSchemas, makeExecutableSchema } from "apollo-server";
-import { init, db } from "./db";
+import { init } from "./db";
 import typeDefs from "./schema.graphql";
 import invoicesResolvers from "./invoices/resolvers";
-import loaders from "./loaders";
 import { GlobalContext } from "./custom_types";
-import { InvoiceDb } from "./db_types";
+import { invoicesLoader } from "./invoices/mongodb";
 
 const mergedSchema = makeExecutableSchema({ typeDefs, resolvers: [invoicesResolvers] })
 
@@ -17,11 +16,8 @@ const server = new ApolloServer({
     schemas: [mergedSchema]
   }),
   context: (): GlobalContext => ({
-    collections: {
-      invoices: db.collection<InvoiceDb>("invoices"),
-    },
     loaders: {
-      invoices: loaders.invoicesLoader(),
+      invoices: invoicesLoader(),
     },
   }),
   playground: {

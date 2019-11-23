@@ -2,6 +2,7 @@ import { GraphQLResolveInfo } from 'graphql';
 import { InvoiceDb } from './db_types';
 import { GlobalContext } from './custom_types';
 export type Maybe<T> = T | null;
+export type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
   ID: string,
@@ -25,6 +26,20 @@ export type Invoice = {
   status: InvoiceStatus,
 };
 
+export enum InvoiceDbKey {
+  Id = 'id',
+  Customer = 'customer',
+  Total = 'total',
+  CreatedAt = 'createdAt',
+  Status = 'status'
+}
+
+export type InvoicesPaginated = {
+   __typename?: 'InvoicesPaginated',
+  total: Scalars['Int'],
+  items: Array<Maybe<Invoice>>,
+};
+
 export enum InvoiceStatus {
   Due = 'DUE',
   PastDue = 'PAST_DUE',
@@ -34,8 +49,18 @@ export enum InvoiceStatus {
 
 export type Query = {
    __typename?: 'Query',
-  getInvoices: Array<Maybe<Invoice>>,
+  getInvoices: InvoicesPaginated,
   _?: Maybe<Scalars['Boolean']>,
+};
+
+
+export type QueryGetInvoicesArgs = {
+  limit?: Maybe<Scalars['Int']>,
+  offset?: Maybe<Scalars['Int']>,
+  search?: Maybe<Scalars['String']>,
+  searchKey?: Maybe<InvoiceDbKey>,
+  sortKey?: Maybe<InvoiceDbKey>,
+  isDesc?: Maybe<Scalars['Boolean']>
 };
 
 
@@ -110,25 +135,29 @@ export type DirectiveResolverFn<TResult = {}, TParent = {}, TContext = {}, TArgs
 /** Mapping between all available schema types and the resolvers types */
 export type ResolversTypes = {
   Query: ResolverTypeWrapper<{}>,
+  Int: ResolverTypeWrapper<Scalars['Int']>,
+  String: ResolverTypeWrapper<Scalars['String']>,
+  InvoiceDBKey: InvoiceDbKey,
+  Boolean: ResolverTypeWrapper<Scalars['Boolean']>,
+  InvoicesPaginated: ResolverTypeWrapper<Omit<InvoicesPaginated, 'items'> & { items: Array<Maybe<ResolversTypes['Invoice']>> }>,
   Invoice: ResolverTypeWrapper<InvoiceDb>,
   ID: ResolverTypeWrapper<Scalars['ID']>,
   CustomerMin: ResolverTypeWrapper<CustomerMin>,
-  String: ResolverTypeWrapper<Scalars['String']>,
-  Int: ResolverTypeWrapper<Scalars['Int']>,
   InvoiceStatus: InvoiceStatus,
-  Boolean: ResolverTypeWrapper<Scalars['Boolean']>,
 };
 
 /** Mapping between all available schema types and the resolvers parents */
 export type ResolversParentTypes = {
   Query: {},
+  Int: Scalars['Int'],
+  String: Scalars['String'],
+  InvoiceDBKey: InvoiceDbKey,
+  Boolean: Scalars['Boolean'],
+  InvoicesPaginated: Omit<InvoicesPaginated, 'items'> & { items: Array<Maybe<ResolversParentTypes['Invoice']>> },
   Invoice: InvoiceDb,
   ID: Scalars['ID'],
   CustomerMin: CustomerMin,
-  String: Scalars['String'],
-  Int: Scalars['Int'],
   InvoiceStatus: InvoiceStatus,
-  Boolean: Scalars['Boolean'],
 };
 
 export type CustomerMinResolvers<ContextType = GlobalContext, ParentType extends ResolversParentTypes['CustomerMin'] = ResolversParentTypes['CustomerMin']> = {
@@ -143,14 +172,20 @@ export type InvoiceResolvers<ContextType = GlobalContext, ParentType extends Res
   status?: Resolver<ResolversTypes['InvoiceStatus'], ParentType, ContextType>,
 };
 
+export type InvoicesPaginatedResolvers<ContextType = GlobalContext, ParentType extends ResolversParentTypes['InvoicesPaginated'] = ResolversParentTypes['InvoicesPaginated']> = {
+  total?: Resolver<ResolversTypes['Int'], ParentType, ContextType>,
+  items?: Resolver<Array<Maybe<ResolversTypes['Invoice']>>, ParentType, ContextType>,
+};
+
 export type QueryResolvers<ContextType = GlobalContext, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = {
-  getInvoices?: Resolver<Array<Maybe<ResolversTypes['Invoice']>>, ParentType, ContextType>,
+  getInvoices?: Resolver<ResolversTypes['InvoicesPaginated'], ParentType, ContextType, QueryGetInvoicesArgs>,
   _?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>,
 };
 
 export type Resolvers<ContextType = GlobalContext> = {
   CustomerMin?: CustomerMinResolvers<ContextType>,
   Invoice?: InvoiceResolvers<ContextType>,
+  InvoicesPaginated?: InvoicesPaginatedResolvers<ContextType>,
   Query?: QueryResolvers<ContextType>,
 };
 
