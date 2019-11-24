@@ -3,6 +3,7 @@ import { InvoiceDb } from './db_types';
 import { GlobalContext } from './custom_types';
 export type Maybe<T> = T | null;
 export type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;
+export type RequireFields<T, K extends keyof T> = { [X in Exclude<keyof T, K>]?: T[X] } & { [P in K]-?: NonNullable<T[P]> };
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
   ID: string,
@@ -50,6 +51,7 @@ export enum InvoiceStatus {
 export type Query = {
    __typename?: 'Query',
   getInvoices: InvoicesPaginated,
+  getInvoice: Invoice,
   _?: Maybe<Scalars['Boolean']>,
 };
 
@@ -61,6 +63,11 @@ export type QueryGetInvoicesArgs = {
   searchKey?: Maybe<InvoiceDbKey>,
   sortKey?: Maybe<InvoiceDbKey>,
   isDesc?: Maybe<Scalars['Boolean']>
+};
+
+
+export type QueryGetInvoiceArgs = {
+  id: Scalars['ID']
 };
 
 
@@ -179,6 +186,7 @@ export type InvoicesPaginatedResolvers<ContextType = GlobalContext, ParentType e
 
 export type QueryResolvers<ContextType = GlobalContext, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = {
   getInvoices?: Resolver<ResolversTypes['InvoicesPaginated'], ParentType, ContextType, QueryGetInvoicesArgs>,
+  getInvoice?: Resolver<ResolversTypes['Invoice'], ParentType, ContextType, RequireFields<QueryGetInvoiceArgs, 'id'>>,
   _?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>,
 };
 

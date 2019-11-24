@@ -1,7 +1,7 @@
 import DataLoader from "dataloader";
 import { db } from "../../db";
 import { InvoiceDb } from "../../db_types";
-import { ObjectID, FilterQuery } from "mongodb";
+import { FilterQuery, ObjectID } from "mongodb";
 import { QueryGetInvoicesArgs } from "../../graphl_types";
 import { DBResultWithMeta } from "../../custom_types";
 
@@ -42,10 +42,10 @@ export async function getInvoices(params: QueryGetInvoicesArgs): Promise<DBResul
 }
 
 async function batchedInvoices(ids: string[]): Promise<InvoiceDb[]> {
-  const objIds = ids.map(id => ObjectID.createFromHexString(id));
+  const objIds = ids.map(ObjectID.createFromHexString);
   const cursor = await db.collection("invoices").find({ "_id": { $in: objIds } });
   const idsMap = new Map<string, InvoiceDb>();
-  cursor.forEach(item => idsMap.set(item.id, item));
+  await cursor.forEach(item => idsMap.set(item._id.toString(), item));
   cursor.close();
   return ids.map(id => idsMap.get(id));
 }

@@ -39,4 +39,5 @@ extend type Query {
     sortKey: InvoiceDBKey
     isDesc: Boolean
   ): InvoicesPaginated!
+  getInvoice(id: ID!): Invoice!
 }
