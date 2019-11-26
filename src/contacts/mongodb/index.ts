@@ -3,6 +3,7 @@ import { DBResultWithMeta } from "../../custom_types";
 import { ContactDb } from "../../db_types";
 import { ObjectID } from "bson";
 import DataLoader from "dataloader";
+import { MutationCreateContactArgs } from "../../graphl_types";
 
 
 export async function getContacts(): Promise<DBResultWithMeta<ContactDb>> {
@@ -24,6 +25,14 @@ async function batchedContacts(ids: string[]): Promise<ContactDb[]> {
   await cursor.forEach(item => idsMap.set(item._id.toString(), item));
   cursor.close();
   return ids.map(id => idsMap.get(id));
+}
+
+export async function createContact(args: MutationCreateContactArgs): Promise<ContactDb> {
+  const contact = {
+    ...args.input,
+  };
+  const res = await db.collection<Omit<ContactDb, "_id">>("contacts").insertOne(contact);
+  return res.ops[0];
 }
 
 export const

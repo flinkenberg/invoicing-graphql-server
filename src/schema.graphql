@@ -9,6 +9,16 @@ type Contact {
   phone: String!
 }
 
+input ContactInput {
+  name: String!
+  street: String!
+  postcode: String!
+  county: String!
+  country: String!
+  email: String!
+  phone: String!
+}
+
 type ContactsPaginated {
   total: Int!
   items: [Contact]!
@@ -80,7 +90,8 @@ type LabelMin {
 }
 
 type Mutation {
-  createInvoice(input: InvoiceInput!): Boolean!
+  createContact(input: ContactInput!): Contact!
+  createInvoice(input: InvoiceInput!): Invoice!
   _: Boolean
 }
 

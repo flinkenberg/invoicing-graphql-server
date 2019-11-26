@@ -25,6 +25,16 @@ export type Contact = {
   phone: Scalars['String'],
 };
 
+export type ContactInput = {
+  name: Scalars['String'],
+  street: Scalars['String'],
+  postcode: Scalars['String'],
+  county: Scalars['String'],
+  country: Scalars['String'],
+  email: Scalars['String'],
+  phone: Scalars['String'],
+};
+
 export type ContactsPaginated = {
    __typename?: 'ContactsPaginated',
   total: Scalars['Int'],
@@ -103,8 +113,14 @@ export type LabelMin = {
 
 export type Mutation = {
    __typename?: 'Mutation',
-  createInvoice: Scalars['Boolean'],
+  createContact: Contact,
+  createInvoice: Invoice,
   _?: Maybe<Scalars['Boolean']>,
+};
+
+
+export type MutationCreateContactArgs = {
+  input: ContactInput
 };
 
 
@@ -221,6 +237,7 @@ export type ResolversTypes = {
   LabelMin: ResolverTypeWrapper<LabelMin>,
   InvoiceStatus: InvoiceStatus,
   Mutation: ResolverTypeWrapper<{}>,
+  ContactInput: ContactInput,
   InvoiceInput: InvoiceInput,
   InvoiceCustomerInput: InvoiceCustomerInput,
   InvoiceItemInput: InvoiceItemInput,
@@ -243,6 +260,7 @@ export type ResolversParentTypes = {
   LabelMin: LabelMin,
   InvoiceStatus: InvoiceStatus,
   Mutation: {},
+  ContactInput: ContactInput,
   InvoiceInput: InvoiceInput,
   InvoiceCustomerInput: InvoiceCustomerInput,
   InvoiceItemInput: InvoiceItemInput,
@@ -296,7 +314,8 @@ export type LabelMinResolvers<ContextType = GlobalContext, ParentType extends Re
 };
 
 export type MutationResolvers<ContextType = GlobalContext, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = {
-  createInvoice?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationCreateInvoiceArgs, 'input'>>,
+  createContact?: Resolver<ResolversTypes['Contact'], ParentType, ContextType, RequireFields<MutationCreateContactArgs, 'input'>>,
+  createInvoice?: Resolver<ResolversTypes['Invoice'], ParentType, ContextType, RequireFields<MutationCreateInvoiceArgs, 'input'>>,
   _?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>,
 };
 

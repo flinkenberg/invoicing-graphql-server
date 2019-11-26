@@ -50,14 +50,14 @@ async function batchedInvoices(ids: string[]): Promise<InvoiceDb[]> {
   return ids.map(id => idsMap.get(id));
 }
 
-export async function createInvoice(args: MutationCreateInvoiceArgs): Promise<boolean> {
+export async function createInvoice(args: MutationCreateInvoiceArgs): Promise<InvoiceDb> {
   const invoice = {
     ...args.input,
     createdAt: new Date(),
     status: args.input.status
   };
   const res = await db.collection<Omit<InvoiceDb, "_id">>("invoices").insertOne(invoice);
-  return res.insertedId instanceof ObjectID;
+  return res.ops[0];
 }
 
 export const

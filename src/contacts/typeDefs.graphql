@@ -1,3 +1,13 @@
+input ContactInput {
+  name: String!
+  street: String!
+  postcode: String!
+  county: String!
+  country: String!
+  email: String!
+  phone: String!
+}
+
 type Contact {
   id: ID!
   name: String!
@@ -9,11 +19,15 @@ type Contact {
   phone: String!
 }
 
+type ContactsPaginated {
+  total: Int!
+  items: [Contact]!
+}
+
 extend type Query {
   getContacts: ContactsPaginated!
 }
 
-type ContactsPaginated {
-  total: Int!
-  items: [Contact]!
+extend type Mutation {
+  createContact(input: ContactInput!): Contact!
 }
