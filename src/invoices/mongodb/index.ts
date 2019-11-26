@@ -2,7 +2,7 @@ import DataLoader from "dataloader";
 import { db } from "../../db";
 import { InvoiceDb } from "../../db_types";
 import { FilterQuery, ObjectID } from "mongodb";
-import { QueryGetInvoicesArgs } from "../../graphl_types";
+import { QueryGetInvoicesArgs, MutationCreateInvoiceArgs } from "../../graphl_types";
 import { DBResultWithMeta } from "../../custom_types";
 
 
@@ -48,6 +48,16 @@ async function batchedInvoices(ids: string[]): Promise<InvoiceDb[]> {
   await cursor.forEach(item => idsMap.set(item._id.toString(), item));
   cursor.close();
   return ids.map(id => idsMap.get(id));
+}
+
+export async function createInvoice(args: MutationCreateInvoiceArgs): Promise<boolean> {
+  const invoice = {
+    ...args.input,
+    createdAt: new Date(),
+    status: args.input.status
+  };
+  const res = await db.collection<Omit<InvoiceDb, "_id">>("invoices").insertOne(invoice);
+  return res.insertedId instanceof ObjectID;
 }
 
 export const

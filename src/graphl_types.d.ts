@@ -22,9 +22,15 @@ export type Invoice = {
    __typename?: 'Invoice',
   id: Scalars['ID'],
   customer: CustomerMin,
+  items: Array<Maybe<Item>>,
+  labels?: Maybe<Array<Maybe<LabelMin>>>,
   total: Scalars['Int'],
   createdAt: Scalars['String'],
   status: InvoiceStatus,
+};
+
+export type InvoiceCustomerInput = {
+  name: Scalars['String'],
 };
 
 export enum InvoiceDbKey {
@@ -35,6 +41,20 @@ export enum InvoiceDbKey {
   Status = 'status'
 }
 
+export type InvoiceInput = {
+  customer: InvoiceCustomerInput,
+  items: Array<Maybe<InvoiceItemInput>>,
+  total: Scalars['Int'],
+  status?: Maybe<InvoiceStatus>,
+};
+
+export type InvoiceItemInput = {
+  name: Scalars['String'],
+  description: Scalars['String'],
+  price: Scalars['Int'],
+  quantity: Scalars['Int'],
+};
+
 export type InvoicesPaginated = {
    __typename?: 'InvoicesPaginated',
   total: Scalars['Int'],
@@ -42,11 +62,37 @@ export type InvoicesPaginated = {
 };
 
 export enum InvoiceStatus {
+  Draft = 'DRAFT',
   Due = 'DUE',
   PastDue = 'PAST_DUE',
   Paid = 'PAID',
   Unpaid = 'UNPAID'
 }
+
+export type Item = {
+   __typename?: 'Item',
+  name: Scalars['String'],
+  description: Scalars['String'],
+  price: Scalars['Int'],
+  quantity: Scalars['Int'],
+};
+
+export type LabelMin = {
+   __typename?: 'LabelMin',
+  name: Scalars['String'],
+  color?: Maybe<Scalars['String']>,
+};
+
+export type Mutation = {
+   __typename?: 'Mutation',
+  createInvoice: Scalars['Boolean'],
+  _?: Maybe<Scalars['Boolean']>,
+};
+
+
+export type MutationCreateInvoiceArgs = {
+  input: InvoiceInput
+};
 
 export type Query = {
    __typename?: 'Query',
@@ -150,7 +196,13 @@ export type ResolversTypes = {
   Invoice: ResolverTypeWrapper<InvoiceDb>,
   ID: ResolverTypeWrapper<Scalars['ID']>,
   CustomerMin: ResolverTypeWrapper<CustomerMin>,
+  Item: ResolverTypeWrapper<Item>,
+  LabelMin: ResolverTypeWrapper<LabelMin>,
   InvoiceStatus: InvoiceStatus,
+  Mutation: ResolverTypeWrapper<{}>,
+  InvoiceInput: InvoiceInput,
+  InvoiceCustomerInput: InvoiceCustomerInput,
+  InvoiceItemInput: InvoiceItemInput,
 };
 
 /** Mapping between all available schema types and the resolvers parents */
@@ -164,7 +216,13 @@ export type ResolversParentTypes = {
   Invoice: InvoiceDb,
   ID: Scalars['ID'],
   CustomerMin: CustomerMin,
+  Item: Item,
+  LabelMin: LabelMin,
   InvoiceStatus: InvoiceStatus,
+  Mutation: {},
+  InvoiceInput: InvoiceInput,
+  InvoiceCustomerInput: InvoiceCustomerInput,
+  InvoiceItemInput: InvoiceItemInput,
 };
 
 export type CustomerMinResolvers<ContextType = GlobalContext, ParentType extends ResolversParentTypes['CustomerMin'] = ResolversParentTypes['CustomerMin']> = {
@@ -174,6 +232,8 @@ export type CustomerMinResolvers<ContextType = GlobalContext, ParentType extends
 export type InvoiceResolvers<ContextType = GlobalContext, ParentType extends ResolversParentTypes['Invoice'] = ResolversParentTypes['Invoice']> = {
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>,
   customer?: Resolver<ResolversTypes['CustomerMin'], ParentType, ContextType>,
+  items?: Resolver<Array<Maybe<ResolversTypes['Item']>>, ParentType, ContextType>,
+  labels?: Resolver<Maybe<Array<Maybe<ResolversTypes['LabelMin']>>>, ParentType, ContextType>,
   total?: Resolver<ResolversTypes['Int'], ParentType, ContextType>,
   createdAt?: Resolver<ResolversTypes['String'], ParentType, ContextType>,
   status?: Resolver<ResolversTypes['InvoiceStatus'], ParentType, ContextType>,
@@ -182,6 +242,23 @@ export type InvoiceResolvers<ContextType = GlobalContext, ParentType extends Res
 export type InvoicesPaginatedResolvers<ContextType = GlobalContext, ParentType extends ResolversParentTypes['InvoicesPaginated'] = ResolversParentTypes['InvoicesPaginated']> = {
   total?: Resolver<ResolversTypes['Int'], ParentType, ContextType>,
   items?: Resolver<Array<Maybe<ResolversTypes['Invoice']>>, ParentType, ContextType>,
+};
+
+export type ItemResolvers<ContextType = GlobalContext, ParentType extends ResolversParentTypes['Item'] = ResolversParentTypes['Item']> = {
+  name?: Resolver<ResolversTypes['String'], ParentType, ContextType>,
+  description?: Resolver<ResolversTypes['String'], ParentType, ContextType>,
+  price?: Resolver<ResolversTypes['Int'], ParentType, ContextType>,
+  quantity?: Resolver<ResolversTypes['Int'], ParentType, ContextType>,
+};
+
+export type LabelMinResolvers<ContextType = GlobalContext, ParentType extends ResolversParentTypes['LabelMin'] = ResolversParentTypes['LabelMin']> = {
+  name?: Resolver<ResolversTypes['String'], ParentType, ContextType>,
+  color?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>,
+};
+
+export type MutationResolvers<ContextType = GlobalContext, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = {
+  createInvoice?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationCreateInvoiceArgs, 'input'>>,
+  _?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>,
 };
 
 export type QueryResolvers<ContextType = GlobalContext, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = {
@@ -194,6 +271,9 @@ export type Resolvers<ContextType = GlobalContext> = {
   CustomerMin?: CustomerMinResolvers<ContextType>,
   Invoice?: InvoiceResolvers<ContextType>,
   InvoicesPaginated?: InvoicesPaginatedResolvers<ContextType>,
+  Item?: ItemResolvers<ContextType>,
+  LabelMin?: LabelMinResolvers<ContextType>,
+  Mutation?: MutationResolvers<ContextType>,
   Query?: QueryResolvers<ContextType>,
 };
 

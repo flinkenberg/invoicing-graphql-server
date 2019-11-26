@@ -5,9 +5,15 @@ type CustomerMin {
 type Invoice {
   id: ID!
   customer: CustomerMin!
+  items: [Item]!
+  labels: [LabelMin]
   total: Int!
   createdAt: String!
   status: InvoiceStatus!
+}
+
+input InvoiceCustomerInput {
+  name: String!
 }
 
 enum InvoiceDBKey {
@@ -18,16 +24,48 @@ enum InvoiceDBKey {
   status
 }
 
+input InvoiceInput {
+  customer: InvoiceCustomerInput!
+  items: [InvoiceItemInput]!
+  total: Int!
+  status: InvoiceStatus = DRAFT
+}
+
+input InvoiceItemInput {
+  name: String!
+  description: String!
+  price: Int!
+  quantity: Int!
+}
+
 type InvoicesPaginated {
   total: Int!
   items: [Invoice]!
 }
 
 enum InvoiceStatus {
+  DRAFT
   DUE
   PAST_DUE
   PAID
   UNPAID
+}
+
+type Item {
+  name: String!
+  description: String!
+  price: Int!
+  quantity: Int!
+}
+
+type LabelMin {
+  name: String!
+  color: String
+}
+
+type Mutation {
+  createInvoice(input: InvoiceInput!): Boolean!
+  _: Boolean
 }
 
 type Query {

@@ -1,4 +1,5 @@
 enum InvoiceStatus {
+  DRAFT
   DUE
   PAST_DUE
   PAID
@@ -17,9 +18,23 @@ type CustomerMin {
   name: String!
 }
 
+type LabelMin {
+  name: String!
+  color: String
+}
+
+type Item {
+  name: String!
+  description: String!
+  price: Int!
+  quantity: Int!
+}
+
 type Invoice {
   id: ID!
   customer: CustomerMin!
+  items: [Item]!
+  labels: [LabelMin]
   total: Int!
   createdAt: String!
   status: InvoiceStatus!
@@ -28,6 +43,24 @@ type Invoice {
 type InvoicesPaginated {
   total: Int!
   items: [Invoice]!
+}
+
+input InvoiceInput {
+  customer: InvoiceCustomerInput!
+  items: [InvoiceItemInput]!
+  total: Int!
+  status: InvoiceStatus = DRAFT
+}
+
+input InvoiceItemInput {
+  name: String!
+  description: String!
+  price: Int!
+  quantity: Int!
+}
+
+input InvoiceCustomerInput {
+  name: String!
 }
 
 extend type Query {
@@ -40,4 +73,8 @@ extend type Query {
     isDesc: Boolean
   ): InvoicesPaginated!
   getInvoice(id: ID!): Invoice!
+}
+
+extend type Mutation {
+  createInvoice(input: InvoiceInput!): Boolean!
 }
