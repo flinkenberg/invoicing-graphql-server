@@ -131,9 +131,15 @@ export type MutationCreateInvoiceArgs = {
 export type Query = {
    __typename?: 'Query',
   getContacts: ContactsPaginated,
+  getContact: Contact,
   getInvoices: InvoicesPaginated,
   getInvoice: Invoice,
   _?: Maybe<Scalars['Boolean']>,
+};
+
+
+export type QueryGetContactArgs = {
+  id: Scalars['ID']
 };
 
 
@@ -321,6 +327,7 @@ export type MutationResolvers<ContextType = GlobalContext, ParentType extends Re
 
 export type QueryResolvers<ContextType = GlobalContext, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = {
   getContacts?: Resolver<ResolversTypes['ContactsPaginated'], ParentType, ContextType>,
+  getContact?: Resolver<ResolversTypes['Contact'], ParentType, ContextType, RequireFields<QueryGetContactArgs, 'id'>>,
   getInvoices?: Resolver<ResolversTypes['InvoicesPaginated'], ParentType, ContextType, QueryGetInvoicesArgs>,
   getInvoice?: Resolver<ResolversTypes['Invoice'], ParentType, ContextType, RequireFields<QueryGetInvoiceArgs, 'id'>>,
   _?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>,

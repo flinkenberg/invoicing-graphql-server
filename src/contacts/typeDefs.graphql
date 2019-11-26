@@ -26,6 +26,7 @@ type ContactsPaginated {
 
 extend type Query {
   getContacts: ContactsPaginated!
+  getContact(id: ID!): Contact!
 }
 
 extend type Mutation {
