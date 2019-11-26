@@ -1,0 +1,19 @@
+type Contact {
+  id: ID!
+  name: String!
+  street: String!
+  postcode: String!
+  county: String!
+  country: String!
+  email: String!
+  phone: String!
+}
+
+extend type Query {
+  getContacts: ContactsPaginated!
+}
+
+type ContactsPaginated {
+  total: Int!
+  items: [Contact]!
+}

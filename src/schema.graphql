@@ -1,3 +1,19 @@
+type Contact {
+  id: ID!
+  name: String!
+  street: String!
+  postcode: String!
+  county: String!
+  country: String!
+  email: String!
+  phone: String!
+}
+
+type ContactsPaginated {
+  total: Int!
+  items: [Contact]!
+}
+
 type CustomerMin {
   name: String!
 }
@@ -69,6 +85,7 @@ type Mutation {
 }
 
 type Query {
+  getContacts: ContactsPaginated!
   getInvoices(limit: Int, offset: Int, search: String, searchKey: InvoiceDBKey, sortKey: InvoiceDBKey, isDesc: Boolean): InvoicesPaginated!
   getInvoice(id: ID!): Invoice!
   _: Boolean

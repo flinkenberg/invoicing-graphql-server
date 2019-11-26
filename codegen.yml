@@ -11,3 +11,4 @@ generates:
       contextType: ./custom_types#GlobalContext
       mappers:
         Invoice: ./db_types#InvoiceDb
+        Contact: ./db_types#ContactDb
