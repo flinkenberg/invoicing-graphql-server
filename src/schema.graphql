@@ -37,8 +37,8 @@ type Invoice {
   labels: [LabelMin]
   currency: String!
   tax: Int!
-  subtotal: Int!
-  total: Int!
+  subtotal: Float!
+  total: Float!
   createdAt: String!
   dueAt: String!
   status: InvoiceStatus!
@@ -57,8 +57,8 @@ input InvoiceInput {
   items: [InvoiceItemInput]!
   currency: String!
   tax: Int!
-  subtotal: Int!
-  total: Int!
+  subtotal: Float!
+  total: Float!
   dueAtTimestamp: String!
   status: InvoiceStatus!
 }
@@ -66,7 +66,7 @@ input InvoiceInput {
 input InvoiceItemInput {
   name: String!
   description: String!
-  price: Int!
+  price: Float!
   quantity: Int!
 }
 
@@ -86,7 +86,7 @@ enum InvoiceStatus {
 type Item {
   name: String!
   description: String!
-  price: Int!
+  price: Float!
   quantity: Int!
   discount: Int
 }

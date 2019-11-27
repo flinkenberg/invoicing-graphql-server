@@ -56,8 +56,8 @@ export type Invoice = {
   labels?: Maybe<Array<Maybe<LabelMin>>>,
   currency: Scalars['String'],
   tax: Scalars['Int'],
-  subtotal: Scalars['Int'],
-  total: Scalars['Int'],
+  subtotal: Scalars['Float'],
+  total: Scalars['Float'],
   createdAt: Scalars['String'],
   dueAt: Scalars['String'],
   status: InvoiceStatus,
@@ -76,8 +76,8 @@ export type InvoiceInput = {
   items: Array<Maybe<InvoiceItemInput>>,
   currency: Scalars['String'],
   tax: Scalars['Int'],
-  subtotal: Scalars['Int'],
-  total: Scalars['Int'],
+  subtotal: Scalars['Float'],
+  total: Scalars['Float'],
   dueAtTimestamp: Scalars['String'],
   status: InvoiceStatus,
 };
@@ -85,7 +85,7 @@ export type InvoiceInput = {
 export type InvoiceItemInput = {
   name: Scalars['String'],
   description: Scalars['String'],
-  price: Scalars['Int'],
+  price: Scalars['Float'],
   quantity: Scalars['Int'],
 };
 
@@ -107,7 +107,7 @@ export type Item = {
    __typename?: 'Item',
   name: Scalars['String'],
   description: Scalars['String'],
-  price: Scalars['Int'],
+  price: Scalars['Float'],
   quantity: Scalars['Int'],
   discount?: Maybe<Scalars['Int']>,
 };
@@ -247,6 +247,7 @@ export type ResolversTypes = {
   Invoice: ResolverTypeWrapper<InvoiceDb>,
   CustomerMin: ResolverTypeWrapper<CustomerMin>,
   Item: ResolverTypeWrapper<Item>,
+  Float: ResolverTypeWrapper<Scalars['Float']>,
   LabelMin: ResolverTypeWrapper<LabelMin>,
   InvoiceStatus: InvoiceStatus,
   Mutation: ResolverTypeWrapper<{}>,
@@ -269,6 +270,7 @@ export type ResolversParentTypes = {
   Invoice: InvoiceDb,
   CustomerMin: CustomerMin,
   Item: Item,
+  Float: Scalars['Float'],
   LabelMin: LabelMin,
   InvoiceStatus: InvoiceStatus,
   Mutation: {},
@@ -306,8 +308,8 @@ export type InvoiceResolvers<ContextType = GlobalContext, ParentType extends Res
   labels?: Resolver<Maybe<Array<Maybe<ResolversTypes['LabelMin']>>>, ParentType, ContextType>,
   currency?: Resolver<ResolversTypes['String'], ParentType, ContextType>,
   tax?: Resolver<ResolversTypes['Int'], ParentType, ContextType>,
-  subtotal?: Resolver<ResolversTypes['Int'], ParentType, ContextType>,
-  total?: Resolver<ResolversTypes['Int'], ParentType, ContextType>,
+  subtotal?: Resolver<ResolversTypes['Float'], ParentType, ContextType>,
+  total?: Resolver<ResolversTypes['Float'], ParentType, ContextType>,
   createdAt?: Resolver<ResolversTypes['String'], ParentType, ContextType>,
   dueAt?: Resolver<ResolversTypes['String'], ParentType, ContextType>,
   status?: Resolver<ResolversTypes['InvoiceStatus'], ParentType, ContextType>,
@@ -321,7 +323,7 @@ export type InvoicesPaginatedResolvers<ContextType = GlobalContext, ParentType e
 export type ItemResolvers<ContextType = GlobalContext, ParentType extends ResolversParentTypes['Item'] = ResolversParentTypes['Item']> = {
   name?: Resolver<ResolversTypes['String'], ParentType, ContextType>,
   description?: Resolver<ResolversTypes['String'], ParentType, ContextType>,
-  price?: Resolver<ResolversTypes['Int'], ParentType, ContextType>,
+  price?: Resolver<ResolversTypes['Float'], ParentType, ContextType>,
   quantity?: Resolver<ResolversTypes['Int'], ParentType, ContextType>,
   discount?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>,
 };
