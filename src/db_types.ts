@@ -3,14 +3,19 @@ import { ObjectID } from "bson";
 
 export interface InvoiceDb {
   _id: ObjectID;
+  invoiceNo: string;
+  title: string;
   customer: CustomerMin;
   currency: string;
-  tax: number;
+  taxRate: number;
   subtotal: number;
+  tax: number;
   total: number;
   createdAt: Date;
   dueAt: Date;
+  issuedAt: Date;
   status: InvoiceStatus;
+  notes: string;
 }
 
 export interface ContactDb {

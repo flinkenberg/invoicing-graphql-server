@@ -51,16 +51,21 @@ export type CustomerMin = {
 export type Invoice = {
    __typename?: 'Invoice',
   id: Scalars['ID'],
+  invoiceNo: Scalars['String'],
+  title: Scalars['String'],
   customer: CustomerMin,
   items: Array<Maybe<Item>>,
   labels?: Maybe<Array<Maybe<LabelMin>>>,
   currency: Scalars['String'],
-  tax: Scalars['Int'],
+  taxRate: Scalars['Int'],
   subtotal: Scalars['Float'],
+  tax: Scalars['Float'],
   total: Scalars['Float'],
   createdAt: Scalars['String'],
   dueAt: Scalars['String'],
+  issuedAt: Scalars['String'],
   status: InvoiceStatus,
+  notes?: Maybe<Scalars['String']>,
 };
 
 export enum InvoiceDbKey {
@@ -73,13 +78,18 @@ export enum InvoiceDbKey {
 
 export type InvoiceInput = {
   customerId: Scalars['ID'],
+  invoiceNo: Scalars['String'],
+  title: Scalars['String'],
   items: Array<Maybe<InvoiceItemInput>>,
   currency: Scalars['String'],
-  tax: Scalars['Int'],
+  taxRate: Scalars['Int'],
   subtotal: Scalars['Float'],
+  tax: Scalars['Float'],
   total: Scalars['Float'],
   dueAtTimestamp: Scalars['String'],
+  issuedAtTimestamp: Scalars['String'],
   status: InvoiceStatus,
+  notes?: Maybe<Scalars['String']>,
 };
 
 export type InvoiceItemInput = {
@@ -303,16 +313,21 @@ export type CustomerMinResolvers<ContextType = GlobalContext, ParentType extends
 
 export type InvoiceResolvers<ContextType = GlobalContext, ParentType extends ResolversParentTypes['Invoice'] = ResolversParentTypes['Invoice']> = {
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>,
+  invoiceNo?: Resolver<ResolversTypes['String'], ParentType, ContextType>,
+  title?: Resolver<ResolversTypes['String'], ParentType, ContextType>,
   customer?: Resolver<ResolversTypes['CustomerMin'], ParentType, ContextType>,
   items?: Resolver<Array<Maybe<ResolversTypes['Item']>>, ParentType, ContextType>,
   labels?: Resolver<Maybe<Array<Maybe<ResolversTypes['LabelMin']>>>, ParentType, ContextType>,
   currency?: Resolver<ResolversTypes['String'], ParentType, ContextType>,
-  tax?: Resolver<ResolversTypes['Int'], ParentType, ContextType>,
+  taxRate?: Resolver<ResolversTypes['Int'], ParentType, ContextType>,
   subtotal?: Resolver<ResolversTypes['Float'], ParentType, ContextType>,
+  tax?: Resolver<ResolversTypes['Float'], ParentType, ContextType>,
   total?: Resolver<ResolversTypes['Float'], ParentType, ContextType>,
   createdAt?: Resolver<ResolversTypes['String'], ParentType, ContextType>,
   dueAt?: Resolver<ResolversTypes['String'], ParentType, ContextType>,
+  issuedAt?: Resolver<ResolversTypes['String'], ParentType, ContextType>,
   status?: Resolver<ResolversTypes['InvoiceStatus'], ParentType, ContextType>,
+  notes?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>,
 };
 
 export type InvoicesPaginatedResolvers<ContextType = GlobalContext, ParentType extends ResolversParentTypes['InvoicesPaginated'] = ResolversParentTypes['InvoicesPaginated']> = {

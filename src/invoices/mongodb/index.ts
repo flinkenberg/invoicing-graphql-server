@@ -57,8 +57,10 @@ export async function createInvoice(args: MutationCreateInvoiceArgs): Promise<In
   const invoice: Omit<InvoiceDb, "_id"> = {
     ...rest,
     customer,
-    dueAt: new Date(parseInt(rest.dueAtTimestamp, 10)),
+    notes: args.input.notes || "",
     createdAt: new Date(),
+    issuedAt: new Date(parseInt(rest.issuedAtTimestamp, 10)),
+    dueAt: new Date(parseInt(rest.dueAtTimestamp, 10)),
   };
   const res = await db.collection<InvoiceDb>("invoices").insertOne(invoice);
   return res.ops[0];
