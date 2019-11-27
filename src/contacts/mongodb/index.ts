@@ -31,7 +31,7 @@ export async function createContact(args: MutationCreateContactArgs): Promise<Co
   const contact = {
     ...args.input,
   };
-  const res = await db.collection<Omit<ContactDb, "_id">>("contacts").insertOne(contact);
+  const res = await db.collection<ContactDb>("contacts").insertOne(contact);
   return res.ops[0];
 }
 

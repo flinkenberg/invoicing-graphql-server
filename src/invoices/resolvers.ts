@@ -12,7 +12,10 @@ const resolvers: Resolvers<GlobalContext> = {
     },
     createdAt: ({ createdAt }) => {
       return createdAt.valueOf().toString()
-    }
+    },
+    dueAt: ({ dueAt }) => {
+      return dueAt.valueOf().toString()
+    },
   }
 
 }

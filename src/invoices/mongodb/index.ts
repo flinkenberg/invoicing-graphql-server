@@ -1,8 +1,8 @@
 import DataLoader from "dataloader";
 import { db } from "../../db";
-import { InvoiceDb } from "../../db_types";
+import { InvoiceDb, ContactDb } from "../../db_types";
 import { FilterQuery, ObjectID } from "mongodb";
-import { QueryGetInvoicesArgs, MutationCreateInvoiceArgs } from "../../graphl_types";
+import { QueryGetInvoicesArgs, MutationCreateInvoiceArgs, CustomerMin } from "../../graphl_types";
 import { DBResultWithMeta } from "../../custom_types";
 
 
@@ -51,12 +51,16 @@ async function batchedInvoices(ids: string[]): Promise<InvoiceDb[]> {
 }
 
 export async function createInvoice(args: MutationCreateInvoiceArgs): Promise<InvoiceDb> {
-  const invoice = {
-    ...args.input,
+  const { customerId, ...rest } = args.input;
+  const customer: CustomerMin = await db.collection<ContactDb>("contacts").findOne({ "_id": new ObjectID(customerId) });
+  if (!customer) throw new Error();
+  const invoice: Omit<InvoiceDb, "_id"> = {
+    ...rest,
+    customer,
+    dueAt: new Date(parseInt(rest.dueAtTimestamp, 10)),
     createdAt: new Date(),
-    status: args.input.status
   };
-  const res = await db.collection<Omit<InvoiceDb, "_id">>("invoices").insertOne(invoice);
+  const res = await db.collection<InvoiceDb>("invoices").insertOne(invoice);
   return res.ops[0];
 }
 

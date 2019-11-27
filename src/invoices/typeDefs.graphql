@@ -14,10 +14,6 @@ enum InvoiceDBKey {
   status
 }
 
-type CustomerMin {
-  name: String!
-}
-
 type LabelMin {
   name: String!
   color: String
@@ -28,6 +24,7 @@ type Item {
   description: String!
   price: Int!
   quantity: Int!
+  discount: Int
 }
 
 type Invoice {
@@ -35,8 +32,12 @@ type Invoice {
   customer: CustomerMin!
   items: [Item]!
   labels: [LabelMin]
+  currency: String!
+  tax: Int!
+  subtotal: Int!
   total: Int!
   createdAt: String!
+  dueAt: String!
   status: InvoiceStatus!
 }
 
@@ -46,10 +47,14 @@ type InvoicesPaginated {
 }
 
 input InvoiceInput {
-  customer: InvoiceCustomerInput!
+  customerId: ID!
   items: [InvoiceItemInput]!
+  currency: String!
+  tax: Int!
+  subtotal: Int!
   total: Int!
-  status: InvoiceStatus = DRAFT
+  dueAtTimestamp: String!
+  status: InvoiceStatus!
 }
 
 input InvoiceItemInput {
@@ -57,10 +62,6 @@ input InvoiceItemInput {
   description: String!
   price: Int!
   quantity: Int!
-}
-
-input InvoiceCustomerInput {
-  name: String!
 }
 
 extend type Query {

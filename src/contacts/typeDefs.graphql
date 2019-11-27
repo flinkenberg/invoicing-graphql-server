@@ -19,6 +19,12 @@ type Contact {
   phone: String!
 }
 
+type CustomerMin {
+  name: String!
+  email: String!
+  phone: String!
+}
+
 type ContactsPaginated {
   total: Int!
   items: [Contact]!

@@ -4,8 +4,12 @@ import { ObjectID } from "bson";
 export interface InvoiceDb {
   _id: ObjectID;
   customer: CustomerMin;
+  currency: string;
+  tax: number;
+  subtotal: number;
   total: number;
   createdAt: Date;
+  dueAt: Date;
   status: InvoiceStatus;
 }
 
