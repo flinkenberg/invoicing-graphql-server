@@ -24,7 +24,7 @@
     "@babel/core": "^7.5.5",
     "@babel/preset-env": "^7.5.5",
     "@babel/preset-typescript": "^7.3.3",
-    "@graphql-codegen/cli": "^1.6.1",
+    "@graphql-codegen/cli": "^1.21.8",
     "@graphql-codegen/schema-ast": "^1.6.1",
     "@graphql-codegen/typescript-mongodb": "^1.6.1",
     "@graphql-codegen/typescript-resolvers": "^1.6.1",
